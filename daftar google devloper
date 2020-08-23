@@ -4,3 +4,7 @@ bayar dengan kartu kredit
 dapatkan ural ini
 https://play.google.com/apps/publish/?account=5057870315884370731
 ikuti sampai semua tercentang hijau dan tunggu pratinjau
+buat icon ukuran 512x512 alpa layer dengan gimp pada linux
+buat gambar promo ukuran 1024 l x 500 t tanpa alpa layer
+asukkan ikon ke android studio
+project->klikKanan->new->Image Asset
