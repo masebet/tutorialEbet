@@ -8,4 +8,5 @@ buat icon ukuran 512x512 alpa layer dengan gimp pada linux
 buat gambar promo ukuran 1024 l x 500 t tanpa alpa layer
 asukkan ikon ke android studio
 project->klikKanan->new->Image Asset
+generate signed bundle pada menubar->build->generate file jangan sampai hilang
 ubah applicationId "com.karebet.PeGo" pada grandle scrip App
