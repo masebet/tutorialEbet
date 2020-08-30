@@ -1,1 +1,6 @@
 edit file CMAkeList masukkan semua file
+
+ini tutorial instal linux
+sudo apt-get update
+sudo apt-get install libcmocka-dev
+
