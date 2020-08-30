@@ -4,3 +4,6 @@ ini tutorial instal linux
 sudo apt-get update
 sudo apt-get install libcmocka-dev
 
+
+import android.provider.Settings.Secure;
+private String android_id = Secure.getString(getContext().getContentResolver(),Secure.ANDROID_ID); 
