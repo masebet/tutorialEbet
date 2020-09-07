@@ -1,0 +1,1 @@
+pip --no-cache-dir install -U platformio
