@@ -1,0 +1,2 @@
+sudo apt-get -y install gdm gnome-shell-extensions
+sudo apt-get -y remove unity lightdm 
