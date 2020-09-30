@@ -3,3 +3,17 @@ sudo apt-get -y remove unity lightdm
 
 sudo add-apt-repository ppa:gnome3-team/gnome3
 sudo apt-get update && sudo apt-get install gnome-shell ubuntu-gnome-desktop
+
+display
+sudo apt-get install slim
+sudo apt-get install lightdm
+sudo apt-get install unity
+
+tasksel
+sudo apt-get install kde-plasma-desktop
+sudo tasksel install ubuntu-mate-core
+sudo tasksel install lubuntu-core
+sudo tasksel install xubuntu-core
+sudo apt-get install xfce4 slim
+
+sudo service display_manager start
