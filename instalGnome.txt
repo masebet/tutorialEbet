@@ -1,9 +1,13 @@
 apt -y install
+startx
 
 display
 sudo apt-get install slim
 sudo apt-get install lightdm
 sudo apt-get install unity
+sudo apt purge unity-session unity
+sudo apt install ubuntu-session gdm3
+
 
 tasksel
 sudo apt-get install kde-plasma-desktop
