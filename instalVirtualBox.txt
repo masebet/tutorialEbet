@@ -13,3 +13,7 @@ qemu-system-x86_64 -boot d -cdrom image.iso -m 512
 qemu-system-x86_64 -boot d -cdrom /dev/cdrom -m 512
 qemu-img create mydisk.img 10G
 qemu-system-x86_64 -boot d -cdrom image.iso -m 512 -hda mydisk.img
+
+https://itectec.com/superuser/how-to-boot-a-physical-windows-partition-with-qemu/
+chmod g-w /dev/sda
+chgrp $USER /dev/sda
