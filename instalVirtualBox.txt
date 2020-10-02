@@ -1,0 +1,3 @@
+sudo apt-get install virtualbox
+sudo apt-get install virtualbox-dkms
+sudo VBoxManage internalcommands createrawvmdk -filename "/path/to/win8.vmdk" -rawdisk /dev/sda -partitions 1,4,5
