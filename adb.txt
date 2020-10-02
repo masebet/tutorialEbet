@@ -1,0 +1,5 @@
+jangan masuk ke mode transfer file
+sudo adb kill-server
+sudo adb start-server
+sudo adb shell
+"broker.hivemq.com"
