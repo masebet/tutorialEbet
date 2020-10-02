@@ -1,0 +1,9 @@
+https://linuxhint.com/grub_rescue_ubuntu_1804/
+
+grub> ls
+grub> ls (hd0,gpt2)/                                        (coba cari satu satu file systemnya)
+grub> ls (hd0,gpt2)/boot                                    (liat dibaris terakhir)
+grub> set root=(hd0,gpt2)
+grub> linux /boot/vmlinuz-4.15.0-20-generic root=/dev/sda2
+grub> initrd /boot/initrd.img-4.15.0-20-generic
+grub> boot
