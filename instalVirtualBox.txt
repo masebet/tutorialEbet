@@ -7,3 +7,9 @@ sudo apt install qemu-system-x86
 sudo apt install libsdl2-dev
 qemu-img create -f qcow2 test.qcow2 16G
 qemu-system-x86_64 -enable-kvm -m 2048 -boot d -nic user,model=virtio -drive file=test.qcow2,media=disk,if=virtio -cdrom archlinux-2019.05.02-x86_64.iso
+
+https://linux-tips.com/t/booting-from-an-iso-image-using-qemu/136
+qemu-system-x86_64 -boot d -cdrom image.iso -m 512
+qemu-system-x86_64 -boot d -cdrom /dev/cdrom -m 512
+qemu-img create mydisk.img 10G
+qemu-system-x86_64 -boot d -cdrom image.iso -m 512 -hda mydisk.img
