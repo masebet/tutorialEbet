@@ -1,3 +1,9 @@
 sudo apt-get install virtualbox
 sudo apt-get install virtualbox-dkms
 sudo VBoxManage internalcommands createrawvmdk -filename "/path/to/win8.vmdk" -rawdisk /dev/sda -partitions 1,4,5
+
+https://gist.github.com/robey/4c6ac3e0fd2f082377fb47bfd38dfdd5
+sudo apt install qemu-system-x86
+sudo apt install libsdl2-dev
+qemu-img create -f qcow2 test.qcow2 16G
+qemu-system-x86_64 -enable-kvm -m 2048 -boot d -nic user,model=virtio -drive file=test.qcow2,media=disk,if=virtio -cdrom archlinux-2019.05.02-x86_64.iso
