@@ -1,2 +1,4 @@
 sudo apt install -y eclipse-cdt-*
 sudo apt-get install libcanberra-gtk-module
+
+dwnload di sini https://www.eclipse.org/cdt/downloads.php
