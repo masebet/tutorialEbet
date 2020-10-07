@@ -1,3 +1,5 @@
-instal vs code
+https://code.visualstudio.com/download
+https://code.visualstudio.com/docs/?dv=linux64_deb
+sudo apt install ./<file>.deb
 install python
 pip --no-cache-dir install -U platformio
