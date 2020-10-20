@@ -11,6 +11,10 @@ sudo rm /var/lib/dpkg/lock*
 sudo dpkg --configure -a
 sudo apt update
 
+sudo fuser -v /var/cache/debconf/config.dat
+sudo kill PIDblabla
+sudo kill -9 PIDblabla  # if the first doesn't work
+
 secan sector hardisk
 R-studio
 acron
