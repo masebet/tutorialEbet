@@ -1,5 +1,6 @@
 sudo apt-get install virtualbox
 sudo apt-get install virtualbox-dkms
+apt install --reinstall linux-headers-$(uname -r) virtualbox-dkms dkms
 sudo VBoxManage internalcommands createrawvmdk -filename "/path/to/win8.vmdk" -rawdisk /dev/sda -partitions 1,4,5
 
 https://gist.github.com/robey/4c6ac3e0fd2f082377fb47bfd38dfdd5
