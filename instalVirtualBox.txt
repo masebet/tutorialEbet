@@ -1,7 +1,7 @@
 sudo apt-get install virtualbox
 sudo apt-get install virtualbox-dkms
 apt install --reinstall linux-headers-$(uname -r) virtualbox-dkms dkms
-disable secure boot di booting
+disable secure boot di booting swich latency mode
 mok boot
 sudo VBoxManage internalcommands createrawvmdk -filename "/path/to/win8.vmdk" -rawdisk /dev/sda -partitions 1,4,5
 
