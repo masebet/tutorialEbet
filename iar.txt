@@ -1,0 +1,3 @@
+
+https://www.iar.com/support/tech-notes/general/using-visual-studio-code-with-iar-embedded-workbench/
+http://eclipse-update.iar.com/plugin-manager-install.html
