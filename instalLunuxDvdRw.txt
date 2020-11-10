@@ -1,3 +1,4 @@
+https://ubuntu.com/tutorials/burn-a-dvd-on-ubuntu#1-getting-started
 beli dvdDw
 instal brasero
 isert dvd
