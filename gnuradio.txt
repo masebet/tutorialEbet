@@ -1,4 +1,5 @@
 https://wiki.gnuradio.org/index.php/InstallingGR
+sudo add-apt-repository --remove ppa:gnuradio/gnuradio-master
 sudo add-apt-repository ppa:gnuradio/gnuradio-releases
 sudo apt-get update
 sudo apt install gnuradio
