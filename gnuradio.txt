@@ -1,0 +1,32 @@
+https://wiki.gnuradio.org/index.php/InstallingGR
+sudo add-apt-repository ppa:gnuradio/gnuradio-releases
+sudo apt-get update
+sudo apt install gnuradio
+
+compile manual
+    git clone --recursive https://github.com/gnuradio/volk.git
+    cd volk
+    mkdir build
+    cd build
+    cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 ../
+    make
+    make test
+    sudo make install
+   
+    git clone https://github.com/gnuradio/gnuradio.git
+    cd gnuradio
+    mkdir build
+    cd build
+    cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 ../
+    make
+    make test
+    sudo make install
+    
+    git checkout maint-3.8
+    git submodule update --init --recursive
+    mkdir build
+    cd build
+    cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 ../
+    make -j3 (e.g. if you want to use 3 CPU cores during the build. To use 8 do -j8, to use 1 leave out the -j flag.)
+    sudo make install
+    sudo ldconfig
