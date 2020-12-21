@@ -31,3 +31,22 @@ compile manual
     make -j3 (e.g. if you want to use 3 CPU cores during the build. To use 8 do -j8, to use 1 leave out the -j flag.)
     sudo make install
     sudo ldconfig
+
+osmocomm block
+https://sdr-setup-notes.readthedocs.io/en/latest/software_grc.html
+sudo pip install setuptools
+sudo pip install git+git://github.com/gnuradio/pybombs.git
+cd ~/wrk
+mkdir grc_wrk
+pybombs recipes add gr-recipes git+https://github.com/gnuradio/gr-recipes.git
+pybombs prefix init -a default ~/wrk/grc_wrk/default/ -R gnuradio-default
+cd ~/wrk/grc_wrk/default
+source ./setup_env.sh
+pybombs install gr-osmosdr
+pybombs install gqrx
+pybombs install gr-iio
+sudo ldconfig
+volk_profile
+sudo cp ~/wrk/grc_wrk/default/lib/uhd/utils/uhd-usrp.rules /etc/udev/rules.d/uhd-usrp.rules
+sudo udevadm control --reload-rules
+sudo udevadm trigger
