@@ -1,0 +1,6 @@
+https://github.com/pestadieu/OBDSimulator
+https://elinux.org/Bringing_CAN_interface_up
+
+$ sudo slcand -o -s8 -t hw -S 3000000 /dev/ttyUSB0
+$ sudo ip link set up slcan0
+
