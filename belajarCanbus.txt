@@ -7,3 +7,5 @@ sudo apt install can-utils
 sudo ip link set can0 up type can bitrate 500000
 sudo slcand -o -s6 -t hw -S 3000000 /dev/ttyUSB0
 sudo ip link set up slcan0
+cansniffer can0
+candump can0
