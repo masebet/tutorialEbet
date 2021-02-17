@@ -6,3 +6,11 @@ AT+CNMI=1,2,0,0,0
 AT+CMGR=1
 AT+CMGL="ALL"
 AT+CMGD=1,4
+
+https://mburumaxwell.medium.com/sim900-dial-up-connection-setup-4261476bbd21
+AT\r\n
+ATE0\r\n
+ATZ\r\n
+AT+CGDCONT=1,\"IP\",\"internet\"\r\n
+ATD*99#\r\n
+ATH\r\n
