@@ -1,0 +1,9 @@
+boot mode blue pill
+tools
+STM32 ST-LINK utility 
+STM32 Flash loader demonstrator (UM0462) 
+
+boot1 boot0
+x 1 > main flash memory
+0 1 > system memory
+1 1 > sram
