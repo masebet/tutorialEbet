@@ -1,0 +1,16 @@
+metode pasang copot ic
+======================
+-komponen lain dari bord di tutup dengan solatip kertas
+-kaki komponen yang akan di cabut di banjiri timah solder dan fluk
+-blower
+
+metode debug bord
+======================
+-inject power pada blok yang akan di test
+-jumper pin yang dibutuhkan
+
+metode pasang ic ke bord
+======================
+-bersihkan pad dengan timah solder dan flux
+-mengambil sisa timah bersihkan mata solder basahi mata solder dengan flux bersihkan bord dengan mata solder yang masih berasap flux
+-
