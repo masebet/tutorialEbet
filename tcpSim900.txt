@@ -1,0 +1,269 @@
+u8 evenAT    = 1;
+u8 lestEven  = 0;
+u16 timeout  = 0;
+static u8 text[128];
+
+s16 getSerial(const u8 *data, u16 length){
+    u16 i, index=0;
+    while(index < length)
+    {
+        i = 0;
+        while(i < 240)
+        {
+            if(isprint(data[index]))
+            {
+                text[i++] = data[index++];
+            }
+            else if(data[index] == '\r' && data[index+1] == '\n')
+            {
+                text[i++] = data[index++];
+                text[i++] = data[index++];
+            }
+            else
+            {
+                i += snprintf((char*)&text[i], sizeof(text) - i, "%02x ", data[index++]);
+            }
+
+            if(index >= length)
+            {
+                if(data[index-2] != '\r' || data[index-1] != '\n')
+                {
+                    i += snprintf((char*)&text[i], sizeof(text) - i, "\r\n");
+                }
+                break;
+            }
+        }
+
+        text[i] = 0; /*make sure is NULL terminated*/
+        //printf ("%s", (char*)text);
+    }
+    return length;
+}
+
+int cek(char in[64]){
+    int j=0;
+    for(int i=0;i<strlen(text);i++){
+      if(in[j]==text[i]) j++;
+      
+    }
+    return j;
+}
+
+typedef enum {
+    AT=1,ATZ,CGATT,CSTT,CIICR,CIFSR,CIPSHUT,CIPSTART,CIPSEND,AUTH,
+    NAME,PASS,FROM,TO,DATA,PESAN,END,QUIT,CIPCLOSE,CCSTT,
+    CCIPMODE,CIPMODE,CIPMULAI,CIPEND,IPR,SAVE,RESET,TCPDIRECT,CCLK,
+    AT_END
+} AT_ENUM;
+
+//jangan asal merubah flow nanti errornya berubah lagi.
+void flowATcomand(){
+      if(cek("PDP: DEACT")>8) evenAT = RESET;
+      if(lestEven == ATZ)     evenAT = RESET;
+      if(lestEven == RESET)   {
+        if(cek("OK")==2) evenAT = CIPEND; else evenAT = RESET;
+      }
+            
+      if(lestEven == AT)      { evenAT = CGATT; memset (text,0,128); timeout = 0;}
+      if(lestEven == CGATT){
+        if(cek("CGATT: 1")==8){ evenAT = CIPMODE; memset (text,0,128); timeout = 0;}
+        else evenAT = CGATT;
+      }
+      else
+      if(lestEven == CIPMODE){
+        if(cek("OK")==2)    {evenAT = CSTT; memset (text,0,128); timeout = 0;}
+        if(cek("ERROR")==5) evenAT  = CGATT;
+      }
+      else
+      if(lestEven == CSTT){
+        if(cek("OK")==2)    {evenAT = CIICR; memset (text,0,128); timeout = 0;}
+        if(cek("ERROR")==5) evenAT  = RESET;
+      }
+      else
+      if(lestEven == CIICR){
+        if(cek("OK")==2)    {evenAT = CIFSR; memset (text,0,128); timeout = 0;}
+        if(cek("ERROR")==5) evenAT  = RESET;
+      }
+      else
+      if(lestEven == CIFSR){
+        if(cek("ERROR")==5) evenAT = RESET; else evenAT = TCPDIRECT;
+        timeout = 0;
+      }
+      else
+      if(lestEven == TCPDIRECT){
+        if(cek("CONNECT")>5) evenAT = PESAN;
+        timeout = 0;
+      }
+      else
+      if(lestEven == PESAN){
+        evenAT = RESET;
+        TIMER_setDuration(SIM900,0);
+        timeout = 0;
+      }
+      
+      if(timeout>12) {                                                          //ini harus di taruh di bawah
+        evenAT = CIPEND;
+        timeout= 0;
+      }else{     
+        timeout++;
+      }
+}//flowATcomand()
+
+void smtpSim900(){                                                              //rutin service simcoms
+  TIMER_setDuration(SIM900,1);
+  switch(evenAT){
+    default:
+      printf ("%s\r\n", (char*)text);
+      flowATcomand(); 
+    break;
+    case AT:
+      SERIAL_write(UARTPORT_MTS, "AT\r", 3);      
+      lestEven = evenAT;
+      evenAT =0;
+    break;    
+    case ATZ:
+      SERIAL_write(UARTPORT_MTS, "ATZ\r", 4);
+      lestEven = evenAT;
+      evenAT =0;
+    break; 
+    case CGATT:
+      SERIAL_write(UARTPORT_MTS, "AT+CGATT?\r", 10);
+      lestEven = evenAT;
+      evenAT =0; 
+    break; 
+    case CSTT:
+      SERIAL_write(UARTPORT_MTS, "AT+CSTT=\"m2minternet\"\r", 22);
+      lestEven = evenAT;
+      evenAT =0;
+    break; 
+    case CIICR:
+      SERIAL_write(UARTPORT_MTS, "AT+CIICR\r", 9);
+      lestEven = evenAT;
+      evenAT =0;
+      TIMER_setDuration(SIM900,5);
+    break;
+    case CIFSR:
+      SERIAL_write(UARTPORT_MTS, "AT+CIFSR\r", 9);
+      lestEven = evenAT;
+      evenAT =0;   
+    break; 
+    case CIPSHUT:
+      SERIAL_write(UARTPORT_MTS, "AT+CIPSHUT\r", 11); 
+      lestEven = evenAT;
+      evenAT =0;
+    break;    
+    case CIPSTART:
+      SERIAL_write(UARTPORT_MTS, "AT+CIPSTART=\"TCP\",\"202.152.24.154\",\"25\"\r", 40);   
+      lestEven = evenAT;
+      evenAT =0;
+    break;
+    case CIPSEND:
+      SERIAL_write(UARTPORT_MTS, "AT+CIPSEND\r", 11);
+      lestEven = evenAT;
+      evenAT =0;   
+    break;
+    case AUTH:
+      SERIAL_write(UARTPORT_MTS, "AUTH LOGIN\r\n", 12);
+      lestEven = evenAT;
+      evenAT =0;   
+    break;
+    case NAME:
+      SERIAL_write(UARTPORT_MTS, "a3EwMDAwMDAwMjU1eDFAb3JiY29tbS5uZXQuaWQ=\r\n", 42);   
+      lestEven = evenAT;
+      evenAT =0;
+    break;    
+    case PASS:
+      SERIAL_write(UARTPORT_MTS, "YTNFd01EQXdNREF3TWpVMWVERUs=\r\n", 30);
+      lestEven = evenAT;
+      evenAT =0;
+    break;       
+    case FROM:
+      SERIAL_write(UARTPORT_MTS, "MAIL FROM: Q4000_0000055996@orbcomm.net.id\r\n", 44);
+      lestEven = evenAT;
+      evenAT =0;
+    break; 
+    case TO:
+      SERIAL_write(UARTPORT_MTS, "RCPT TO: ip@orbcomm.co.id\r\n", 27);
+      lestEven = evenAT;
+      evenAT =0;
+    break;     
+    case DATA:
+      SERIAL_write(UARTPORT_MTS, "DATA\r\n", 6);   
+      lestEven = evenAT;
+      evenAT =0;
+    break;
+    case PESAN:
+      SERIAL_write(UARTPORT_MTS,msgBuff,sizeof(msgBuff)); 
+      //SERIAL_write(UARTPORT_MTS, "\r\n",2);                                   //untuk kirim email  
+      lestEven = evenAT;
+      evenAT   = 0;
+    break;
+    case END:
+      SERIAL_write(UARTPORT_MTS, ".\r\n",3);   
+      lestEven = evenAT;
+      evenAT =0;
+    break;
+    case QUIT:
+      SERIAL_write(UARTPORT_MTS, "QUIT\r\n", 6);
+      lestEven = evenAT;
+      evenAT =0;   
+    break;
+    case CIPCLOSE:
+      SERIAL_write(UARTPORT_MTS, "AT+CIPCLOSE\r", 12);
+      lestEven = evenAT;
+      evenAT =0;   
+    break;
+    case CCSTT:
+      SERIAL_write(UARTPORT_MTS, "AT+CSTT?\r", 9);
+      lestEven = evenAT;
+      evenAT =0;
+    break; 
+    case CIPMODE:
+      SERIAL_write(UARTPORT_MTS, "AT+CIPMODE=1\r", 13);
+      lestEven = evenAT;
+      evenAT =0;
+    break; 
+    case RESET:                                                                 //DIBALIK SUPAYA CEPAT
+      SERIAL_write(UARTPORT_MTS, "+++", 3);
+      lestEven = evenAT;
+      evenAT = 0;
+      TIMER_setDuration(SIM900,5);
+    break; 
+    case CIPMULAI:
+      SERIAL_write(UARTPORT_MTS, "ATO\r", 4);
+      lestEven = evenAT;
+      evenAT =0;
+    break; 
+    case CCIPMODE:
+      SERIAL_write(UARTPORT_MTS, "AT+CIPMODE?\r", 12);
+      lestEven = evenAT;
+      evenAT =0;
+    break;  
+    case IPR:
+      SERIAL_write(UARTPORT_MTS, "AT+IPR=4800\r", 12);
+      lestEven = evenAT;
+      evenAT =0;
+    break;
+    case SAVE:
+      SERIAL_write(UARTPORT_MTS, "AT&W\r", 5);
+      lestEven = evenAT;
+      evenAT =0;
+    break;
+    case CIPEND:                                                                //DIBALIK SUPAYA CEPAT
+      SERIAL_write(UARTPORT_MTS, "AT+CFUN=1,1\r", 12);
+      lestEven = evenAT;
+      evenAT = AT;
+      TIMER_setDuration(SIM900,15);
+    break;
+    case CCLK:
+      SERIAL_write(UARTPORT_MTS, "AT+CCLK?\r", 9);
+      lestEven = evenAT;
+      evenAT = 0;
+    break;
+    case TCPDIRECT:
+      SERIAL_write(UARTPORT_MTS, "AT+CIPSTART=\"TCP\",\"m2prime.aissat.com\",\"15053\"\r", 47);   
+      lestEven = evenAT;
+      evenAT =0;
+    break;    
+  }
+}//smtpSim900();
