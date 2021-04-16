@@ -3,3 +3,4 @@ https://ezgif.com/resize
 https://iconarchive.com/news.html
 https://icons8.com/animated-icons
 https://www.instructables.com/Running-Animations-on-OLED-DISPLAY-SSD1306/
+https://manytools.org/hacker-tools/image-to-byte-array/go/
