@@ -1,0 +1,19 @@
+$ sudo mkdir /media/newhd
+
+To mount the drive, enter:
+$ sudo mount /dev/sdb1 /media/newhd
+$ df -H
+
+To view files cd to /media/newhd, enter:
+$ cd /media/newhd
+$ ls -l
+
+A Note About Automatic Mount At Boot Time
+You need to edit /etc/fstab file, enter:
+$ sudo vi /etc/fstab
+
+Add the following line for ext3 file system:
+/dev/sdb1    /media/newhd   ext3    defaults     0        2
+
+Add the following line for Windows FAT32 file system:
+/dev/sdb1    /media/windowshd   vfat    defaults     0        2
