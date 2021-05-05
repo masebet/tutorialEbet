@@ -4,3 +4,5 @@ sudo apt install openjdk-11-jdk
 $ sudo add-apt-repository ppa:maarten-fonville/android-studi
 $ sudo apt update
 $ sudo apt install android-studio
+
+download zip dan extrak saja
